@@ -1,0 +1,7 @@
+name: CompassTarget
+version: '${project.version}'
+main: ru.sasuke.compasstarget.CompassTarget
+api-version: 1.16
+authors: [ Sasuke ]
+commands:
+  targetcompass:
