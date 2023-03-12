@@ -1,5 +1,6 @@
 package ru.sasuke.compasstarget;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public final class CompassTarget extends JavaPlugin implements CommandExecutor {
@@ -40,9 +42,11 @@ public final class CompassTarget extends JavaPlugin implements CommandExecutor {
             return true;
         }
 
-        if(!p.getLocation().getWorld().getName().equalsIgnoreCase("world")) {
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getConfig().getString("block-world"))));
-            return true;
+        for(String wName : getConfig().getStringList("blocked-worlds")) {
+            if(Bukkit.getWorld(wName).equals(p.getWorld())) {
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getConfig().getString("block-world"))));
+                return true;
+            }
         }
 
 
