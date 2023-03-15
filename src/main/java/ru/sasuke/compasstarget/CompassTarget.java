@@ -34,8 +34,8 @@ public final class CompassTarget extends JavaPlugin implements CommandExecutor {
         }
 
         if(args[0].equalsIgnoreCase("reload")) {
-            saveConfig();
             reloadConfig();
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getConfig().getString("reload-msg"))));
             return true;
         }
 
