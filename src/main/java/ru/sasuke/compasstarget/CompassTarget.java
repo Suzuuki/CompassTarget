@@ -1,16 +1,16 @@
 package ru.sasuke.compasstarget;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import javax.security.auth.login.Configuration;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public final class CompassTarget extends JavaPlugin implements CommandExecutor {
@@ -21,7 +21,6 @@ public final class CompassTarget extends JavaPlugin implements CommandExecutor {
         Objects.requireNonNull(getCommand("targetcompass")).setExecutor(this);
     }
 
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length == 0) {
@@ -31,6 +30,12 @@ public final class CompassTarget extends JavaPlugin implements CommandExecutor {
 
         if(args.length < 2) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(getConfig().getString("usage"))));
+            return true;
+        }
+
+        if(args[0].equalsIgnoreCase("reload")) {
+            saveConfig();
+            reloadConfig();
             return true;
         }
 
@@ -59,8 +64,6 @@ public final class CompassTarget extends JavaPlugin implements CommandExecutor {
                     }
                 }
             }
-
-
 
             p.setCompassTarget(new Location(p.getWorld(), x, 0, z));
             p.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(Objects.requireNonNull(getConfig().getString("set-success")).replace("%x", args[0]).replace("%z", args[1]))));
